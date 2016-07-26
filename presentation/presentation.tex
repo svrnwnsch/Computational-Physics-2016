@@ -1,0 +1,108 @@
+%\documentclass[handout]{beamer}
+\documentclass[ignorenonframetext]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[german, english]{babel}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{framed}
+\usepackage{mathtools}
+\usepackage[font=footnotesize]{caption}
+\captionsetup{format=hang}
+%\usepackage[hyperfigures =true ,linkcolor =black, urlcolor=blue, colorlinks =true, citecolor=black ,pdfauthor ={ Leonard Peter Wossnig}, ={Analytic solution and Monte Carlo simulation of the two dimensional q-state Potts model},pdfcreator ={ pdfLaTeX }]{hyperref}
+%\usepackage{braket}pdftitle
+%%%\usepackage[dvips]{color}
+%\usepackage[pdftex]{graphicx}
+%%%\usepackage{subfigure}
+\usetheme{Malmoe}
+\useoutertheme{infolines}
+%\usepackage{mathpazo}
+\parskip1.5ex
+
+\newcommand{\changefont}[3]{\fontfamily{#1}\fontseries{#2}\fontshape{#3}\selectfont}
+\definecolor{mygray}{rgb}{0.98,0.98,0.98}
+\definecolor{darkgray}{rgb}{0.6,0.6,0.6}
+\definecolor{mygreen}{rgb}{0.0,0.5,0.0}
+\definecolor{myblue}{rgb}{0.0,0.0,0.5}
+
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\tib}{\end{itemize}}
+\newcommand{\kb}{k_\mathrm{B}}
+\newcommand{\wc}{\omega_\mathrm{C}}
+\newcommand{\q}{q}
+\newcommand{\wurzel}{q}
+\newcommand{\ci}{\mathrm{i}}
+
+
+
+%------------------------------------------------------------------------------------
+\title[]{Numerical Solutaion of the Maxwell Equation in 1D}
+\subtitle{}
+\author[Wünsch, Yang, Zielke]{\large{Severin Wünsch, Xinrui Yang, Dominikus Zielke} \\
+}
+\institute[Universität Augsburg]{Institut für Physik der Universität Augsburg} 
+
+\date[29.07.2016]
+
+\titlegraphic{
+\hspace{1cm}
+%\includegraphics[height=2cm]{ekm}
+\hspace{1cm}
+%\includegraphics[height=2cm]{unia}
+\hspace{1cm}
+}
+
+
+\beamertemplatenavigationsymbolsempty
+
+\setbeamertemplate{headline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=1\paperwidth,ht=2.25ex,dp=1ex,left,leftskip=1em]{section in head/foot}%
+    \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertsectionhead
+  \end{beamercolorbox}%
+  }%
+  \vskip0pt%
+}
+\makeatletter
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor~~\beamer@ifempty{\insertshortinstitute}{}{}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\makeatother
+\begin{document}
+\frame[plain]{\titlepage}
+
+\section*{Table of Contents}
+\begin{frame}
+\tableofcontents[]
+\end{frame}
+
+\section{Motivation}
+\begin{frame}
+\frametitle{Motivation}
+\end{frame}
+
+\section{The Model}
+\begin{frame}
+\frametitle{The Model}
+\end{frame}
+
+\
+
+\end{document}
+
+
