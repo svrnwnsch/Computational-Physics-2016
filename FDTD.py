@@ -7,6 +7,7 @@ Created on Thu Jul 21 13:29:58 2016
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 #import scipy.constants as c
 
 # Source
@@ -67,7 +68,7 @@ for j in range(0, m):
     for i in range(1, n):
        
         E[i, j+1] = E[i, j] + ce * (B[i-1, j] - B[i, j])  
-        if abs(E[i,j+1]) < eps:
+        if abs(E[i, j+1]) < eps:
             E[i, j + 1] = 0
     # B field loop
     for i in range(0, n-1):
@@ -84,7 +85,28 @@ for j in range(0, m):
 # Plotting routine    
 # ----------------
 
-# Produce snapshot at time t_hat   
+# Animation routine
+
+def getE(time):
+    line.set_ydata(E[:, time])
+    time_text.set_text('E_x[t_hat = {}]'.format(time * dt))
+    return line
+
+fig = plt.figure('Animation for {} s'.format(t_max))
+
+ax = fig.add_subplot(111)
+ax.set_ylim(-1, 1)
+
+line, = ax.plot(z, E[:, 0])
+time_text = ax.text(0.02, 0.95, '', transform=ax.transAxes)
+
+ani = animation.FuncAnimation(fig, getE, range(0, E.shape[1], 10), interval=1, blit=False)
+
+## Method to save animation in movie file needs ffmpg installed
+
+# ani.save('test.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+
+# Produce snapshot at time t_hat
 
 for t_hat in range(0, 5001, 1000):
     plt.figure('Snapshot at time t = {} s'.format(t_hat*dt))
