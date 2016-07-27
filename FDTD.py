@@ -12,11 +12,7 @@ import matplotlib.animation as animation
 
 # Source
 def f(x):
-    if (x==4):
-        a = 1
-    else:
-        a = 0
-    return a#np.exp(-10*(x-4)*(x-4))
+    return np.exp(-10*(x-4)*(x-4))
 
 # Physical constants
 
@@ -61,11 +57,18 @@ for j in range(0, m):
         E[n, j] = 0
         
 # Initial Condition
+#E[int(n/2),0] = 1
+
 for i in range(1, n):
     E[i, 0] = f(z[i])
 
+
+
+
 # Generate E- and B-fields with FDTD-Method
 for j in range(0, m):
+    if(j%100==0):
+        print(float(j)/m)
     # E field loop    
     for i in range(1, n):
         E[i, j+1] = E[i, j] - ce * (B[i, j] - B[i-1, j])  
@@ -73,8 +76,6 @@ for j in range(0, m):
     for i in range(0, n):
         B[i, j+1] = B[i, j] - cb * (E[i+1, j] - E[i, j+1])    
     
-
-
 '''
 # Generate E- and B-fields with FDTD-Method (simplified)
 for j in range(0, m):
@@ -91,22 +92,26 @@ for j in range(0, m):
 
 def getE(time):
     line.set_ydata(E[:, time])
-    time_text.set_text('E_x[t_hat = {}]'.format(time * dt))
+    time_text.set_text('t = {:5.2f}'.format(time * dt))
     return line
 
 fig = plt.figure('Animation for {} s'.format(t_max))
 
 ax = fig.add_subplot(111)
 ax.set_ylim(-1, 1)
+ax.set_xlabel('z')
+ax.set_ylabel('E_x')
 
 line, = ax.plot(z, E[:, 0])
 time_text = ax.text(0.02, 0.95, '', transform=ax.transAxes)
 
-ani = animation.FuncAnimation(fig, getE, range(0, E.shape[1], int(E.shape[1]/1000)), interval=10, blit=False)
+ani = animation.FuncAnimation(fig, getE, range(0, E.shape[1], int(E.shape[1]/1000)),
+                              interval=10, blit=False)
+
 
 ## Method to save animation in movie file needs ffmpg installed
 
-# ani.save('test.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+#ani.save('Gaus_dz{}dt{}z{}t{}.mp4'.format(dt, dz, z_max, t_max), fps=30, extra_args=['-vcodec', 'libx264'])
 
 # Produce snapshot at time t_hat
 
