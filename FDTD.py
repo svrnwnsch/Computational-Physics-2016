@@ -52,28 +52,30 @@ E = np.zeros([n+1, m+1])
 B = np.zeros([n+1, m+1])
 
 # Boundary condition for all time-nodes j in 0..m
-for j in range(0, m + 1):
+for j in range(0, m):
         E[0, j] = 0
         E[n, j] = 0
         
 # Initial Condition
+#E[int(n/2),0] = 1
+
 for i in range(1, n):
     E[i, 0] = f(z[i])
 
-eps = 0   
+
+
+
 # Generate E- and B-fields with FDTD-Method
 for j in range(0, m):
     if(j%100==0):
         print(float(j)/m)
     # E field loop    
     for i in range(1, n):
-       
-        E[i, j+1] = E[i, j] + ce * (B[i-1, j] - B[i, j])  
-        if abs(E[i, j+1]) < eps:
-            E[i, j + 1] = 0
+        E[i, j+1] = E[i, j] - ce * (B[i, j] - B[i-1, j])  
     # B field loop
     for i in range(0, n):
-        B[i, j+1] = B[i, j] + cb * (E[i, j] - E[i+1, j])    
+        B[i, j+1] = B[i, j] - cb * (E[i+1, j] - E[i, j+1])    
+    
 '''
 # Generate E- and B-fields with FDTD-Method (simplified)
 for j in range(0, m):
@@ -105,6 +107,7 @@ time_text = ax.text(0.02, 0.95, '', transform=ax.transAxes)
 
 ani = animation.FuncAnimation(fig, getE, range(0, E.shape[1], int(E.shape[1]/1000)),
                               interval=10, blit=False)
+
 
 ## Method to save animation in movie file needs ffmpg installed
 
