@@ -71,7 +71,7 @@ for j in range(0, m):
         if abs(E[i, j+1]) < eps:
             E[i, j + 1] = 0
     # B field loop
-    for i in range(0, n-1):
+    for i in range(0, n):
         B[i, j+1] = B[i, j] + cb * (E[i, j] - E[i+1, j])    
 '''
 # Generate E- and B-fields with FDTD-Method (simplified)
