@@ -39,7 +39,7 @@
 
 
 %------------------------------------------------------------------------------------
-\title[]{Numerical Solutaion of the Maxwell Equation in 1D}
+\title[]{Numerical Solution of Maxwells' Equations in 1D}
 \subtitle{}
 \author[Wünsch, Yang, Zielke]{\large{Severin Wünsch, Xinrui Yang, Dominikus Zielke} \\
 }
@@ -91,18 +91,93 @@
 \tableofcontents[]
 \end{frame}
 
-\section{Motivation}
+\section{Problem and approach to a solution}
 \begin{frame}
-\frametitle{Motivation}
+\frametitle{Problem and approach to a solution}
+\begin{itemize}
+\item Task: Simulate time evolution of Gaussian peak in 1D
+\item Idea: Use \textbf{F}inite-\textbf{D}ifference \textbf{T}ime-\textbf{D}omain Method by Yee (1966)
+\item Start with Maxwell's Equations in vacuum:
+\begin{eqnarray}
+\nabla \times \boldsymbol{B}(\boldsymbol{r},t) &=& \frac{1}{c^2}\partial_t{\boldsymbol{E}}(\boldsymbol{r},t)\nonumber\\
+\nabla \times \boldsymbol{E}(\boldsymbol{r},t) &=& -\partial_t{\boldsymbol{B}}(\boldsymbol{r}, t)
+\end{eqnarray}
+\item Further assumptions to simplify the problem:
+\begin{itemize}
+\item $\boldsymbol{k} \propto \hat{\boldsymbol{z}} \Rightarrow $ E$_z$ = B$_z$ = 0   
+\item E$_x$ $\equiv$ E 
+\item B$_y$ $\equiv$ B
+\end{itemize}
+\end{itemize}
 \end{frame}
 
-\section{The Model}
 \begin{frame}
-\frametitle{The Model}
+\frametitle{Problem and approach to a solution}
+\begin{itemize}
+\item Evaluating the curls in cartesian coordinates yields
+\begin{eqnarray}
+-\partial_z B(z, t) &=& \frac{1}{c^2} \partial_t E(z, t)\nonumber\\
+\partial_z E(z, t)  &=& -\partial_t B(z, t)
+\end{eqnarray}
+\item Recall lect.4, pt.2: Central difference approximation
+\begin{equation}
+f'_i = \frac{f_{i+1} - f_{i-1}}{2h} + \mathcal{O}(h^2) 
+\end{equation}
+\end{itemize}
 \end{frame}
 
-\
+\begin{frame}
+\frametitle{Problem and approach to a solution}
+\begin{itemize}
+\item Yee's idea: Use discretized mesh and displace E- and B- nodes by $i + 1/2$ in space and $j + 1/2$ in time 
+\begin{eqnarray}
+- \frac{B^{j}(i+\frac{1}{2}) - B^{j}(i-\frac{1}{2})}{\Delta z} &=& \frac{1}{c^2} \frac{E^{j+\frac{1}{2}}(i) - E^{j-\frac{1}{2}}(i)}{\Delta t}\nonumber\\
+\frac{E^{j+\frac{1}{2}}(i + 1) - E^{j+\frac{1}{2}}(i)}{\Delta z} &=& -\frac{B^{j+1}(i+\frac{1}{2}) - B^{j}(i+\frac{1}{2})}{\Delta t} 
+\end{eqnarray}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{yee_mesh}
+\caption{}
+\label{fig:yee_mesh}
+\end{figure}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Problem and approach to a solution}
+\begin{itemize}
+\item Solving yields \emph{explicit} formulas for $E^{j+\frac{1}{2}}(i)$ and $B^{j+1}(i+\frac{1}{2})$:
+\begin{eqnarray}
+E^{j+\frac{1}{2}}(i)&=& E^{j-\frac{1}{2}}(i) -  \frac{c^2 \Delta t}{\Delta z} \left[B^j(i+\frac{1}{2}) - B^j(i-\frac{1}{2})\right] \nonumber\\
+B^{j+1}(i+\frac{1}{2}) &=& B^{j}(i+\frac{1}{2}) - \frac{\Delta t}{\Delta z}\left[E^{j+\frac{1}{2}}(i+1) - E^{j+\frac{1}{2}}(i)\right]
+\end{eqnarray}
+\item Absorbing \emph{boundary conditions}: $E^{j+\frac{1}{2}}(0) = E^{j+\frac{1}{2}}(n)$ = 0 for all time nodes $j$
+\item \emph{Initial condition}: $E^{0+\frac{1}{2}}(i) = \exp\left(-\frac{(i - \mu)^2}{2 \sigma^2}\right)$ for all space nodes $i$
+\item Illustration of the resulting \emph{leap frog algorithm} is done on blackboard 
+\end{itemize}
+\end{frame}
+
+
+
+
+\section{Summary}
+\begin{frame}
+\frametitle{Summary}
+\end{frame}
 
 \end{document}
 
-
+% In case 2 column minipage is needed:
+\begin{frame}
+\frametitle{Problem and approach to a solution}
+\begin{columns}[T] % align columns
+\begin{column}{.48\textwidth}
+Left Part
+\end{column}%
+\hfill%
+\begin{column}{.48\textwidth}
+Right Part
+\end{column}%
+\end{columns}
+\end{frame}
