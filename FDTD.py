@@ -12,7 +12,11 @@ import matplotlib.animation as animation
 
 # Source
 def f(x):
-    return np.exp(-10*(x-4)*(x-4))
+    if (x==4):
+        a = 1
+    else:
+        a = 0
+    return a#np.exp(-10*(x-4)*(x-4))
 
 # Physical constants
 
@@ -25,8 +29,8 @@ z_max = 8
 t_max = 100
 
 # Cell size and time stepping
-dt = 1E-2
-dz = 1E-1
+dt = 1E-3
+dz = 1E-2
 
 # Spacial index
 n = int(z_max / dz)
@@ -52,7 +56,7 @@ E = np.zeros([n+1, m+1])
 B = np.zeros([n+1, m+1])
 
 # Boundary condition for all time-nodes j in 0..m
-for j in range(0, m + 1):
+for j in range(0, m):
         E[0, j] = 0
         E[n, j] = 0
         
@@ -60,19 +64,17 @@ for j in range(0, m + 1):
 for i in range(1, n):
     E[i, 0] = f(z[i])
 
-eps = 0   
 # Generate E- and B-fields with FDTD-Method
 for j in range(0, m):
-    
     # E field loop    
     for i in range(1, n):
-       
-        E[i, j+1] = E[i, j] + ce * (B[i-1, j] - B[i, j])  
-        if abs(E[i, j+1]) < eps:
-            E[i, j + 1] = 0
+        E[i, j+1] = E[i, j] - ce * (B[i, j] - B[i-1, j])  
     # B field loop
-    for i in range(0, n-1):
-        B[i, j+1] = B[i, j] + cb * (E[i, j] - E[i+1, j])    
+    for i in range(0, n):
+        B[i, j+1] = B[i, j] - cb * (E[i+1, j] - E[i, j+1])    
+    
+
+
 '''
 # Generate E- and B-fields with FDTD-Method (simplified)
 for j in range(0, m):
@@ -100,7 +102,7 @@ ax.set_ylim(-1, 1)
 line, = ax.plot(z, E[:, 0])
 time_text = ax.text(0.02, 0.95, '', transform=ax.transAxes)
 
-ani = animation.FuncAnimation(fig, getE, range(0, E.shape[1], 10), interval=1, blit=False)
+ani = animation.FuncAnimation(fig, getE, range(0, E.shape[1], int(E.shape[1]/1000)), interval=10, blit=False)
 
 ## Method to save animation in movie file needs ffmpg installed
 
