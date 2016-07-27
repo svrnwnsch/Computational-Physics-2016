@@ -25,8 +25,8 @@ z_max = 8
 t_max = 100
 
 # Cell size and time stepping
-dt = 1E-2
-dz = 1E-1
+dt = 1E-3
+dz = 1E-2
 
 # Spacial index
 n = int(z_max / dz)
@@ -63,7 +63,8 @@ for i in range(1, n):
 eps = 0   
 # Generate E- and B-fields with FDTD-Method
 for j in range(0, m):
-    
+    if(j%100==0):
+        print(float(j)/m)
     # E field loop    
     for i in range(1, n):
        
@@ -102,11 +103,12 @@ ax.set_ylabel('E_x')
 line, = ax.plot(z, E[:, 0])
 time_text = ax.text(0.02, 0.95, '', transform=ax.transAxes)
 
-ani = animation.FuncAnimation(fig, getE, range(0, E.shape[1], 10), interval=1, blit=False)
+ani = animation.FuncAnimation(fig, getE, range(0, E.shape[1], int(E.shape[1]/1000)),
+                              interval=10, blit=False)
 
 ## Method to save animation in movie file needs ffmpg installed
 
-# ani.save('test.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+#ani.save('Gaus_dz{}dt{}z{}t{}.mp4'.format(dt, dz, z_max, t_max), fps=30, extra_args=['-vcodec', 'libx264'])
 
 # Produce snapshot at time t_hat
 
