@@ -39,7 +39,7 @@
 
 
 %------------------------------------------------------------------------------------
-\title[]{Numerical Solution of Maxwells' Equations in 1D}
+\title[]{Numerical Solution of Maxwells' Equations}
 \subtitle{}
 \author[Wünsch, Yang, Zielke]{\large{Severin Wünsch, Xinrui Yang, Dominikus Zielke} \\
 }
@@ -91,43 +91,56 @@
 \tableofcontents[]
 \end{frame}
 
-\section{Problem and approach to a solution}
+\section{Problem statement and approaches to a solution}
 \begin{frame}
-\frametitle{Problem and approach to a solution}
+\frametitle{Problem statement and approaches to a solution}
 \begin{itemize}
 \item Task: Simulate time evolution of Gaussian peak in 1D
-\item Idea: Use \textbf{F}inite-\textbf{D}ifference \textbf{T}ime-\textbf{D}omain Method by Yee (1966)
-\item Start with Maxwell's Equations in vacuum:
+\begin{figure}
+\centering
+%\includegraphics[width=0.7\linewidth]{problem_statement}
+%\caption{}
+\label{fig:yee_mesh}
+\end{figure}
+\item Idea 1: Use \textbf{F}inite-\textbf{D}ifference \textbf{T}ime-\textbf{D}omain Method by Yee (1966) to simulate Maxwells' Equations directly on a Yee mesh
+\item Idea 2: Obtain Wave Equation from Maxwells' Equations, then simulate the Wave equation on a mesh
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Maxwell's Equations in vacuum (simplified)}
+\begin{itemize}
+\item Start with Maxwell's Equations in vacuum, i.e. no charges and currents present:
 \begin{eqnarray}
 \nabla \times \boldsymbol{B}(\boldsymbol{r},t) &=& \frac{1}{c^2}\partial_t{\boldsymbol{E}}(\boldsymbol{r},t)\nonumber\\
 \nabla \times \boldsymbol{E}(\boldsymbol{r},t) &=& -\partial_t{\boldsymbol{B}}(\boldsymbol{r}, t)
 \end{eqnarray}
 \item Further assumptions to simplify the problem:
-\begin{itemize}
 \item $\boldsymbol{k} \propto \hat{\boldsymbol{z}} \Rightarrow $ E$_z$ = B$_z$ = 0   
 \item E$_x$ $\equiv$ E 
 \item B$_y$ $\equiv$ B
 \end{itemize}
-\end{itemize}
 \end{frame}
 
+
 \begin{frame}
-\frametitle{Problem and approach to a solution}
+\frametitle{Maxwell's Equations in vacuum (simplified)}
 \begin{itemize}
 \item Evaluating the curls in cartesian coordinates yields
 \begin{eqnarray}
 -\partial_z B(z, t) &=& \frac{1}{c^2} \partial_t E(z, t)\nonumber\\
 \partial_z E(z, t)  &=& -\partial_t B(z, t)
 \end{eqnarray}
-\item Recall lect.4, pt.2: Central difference approximation
+\item Recall lect.4,pt.2: Central difference approximation
 \begin{equation}
 f'_i = \frac{f_{i+1} - f_{i-1}}{2h} + \mathcal{O}(h^2) 
 \end{equation}
 \end{itemize}
 \end{frame}
 
+\section{FDTD-Method}
 \begin{frame}
-\frametitle{Problem and approach to a solution}
+\frametitle{FDTD-Method}
 \begin{itemize}
 \item Yee's idea: Use discretized mesh and displace E- and B- nodes by $i + 1/2$ in space and $j + 1/2$ in time 
 \begin{eqnarray}
@@ -137,15 +150,15 @@ f'_i = \frac{f_{i+1} - f_{i-1}}{2h} + \mathcal{O}(h^2)
 \begin{figure}
 \centering
 %\includegraphics[width=0.7\linewidth]{yee_mesh}
-\caption{}
-\label{fig:yee_mesh}
+%\caption{}
+%\label{fig:yee_mesh}
 \end{figure}
 
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Problem and approach to a solution}
+\frametitle{FDTD-Method}
 \begin{itemize}
 \item Solving yields \emph{explicit} formulas for $E^{j+\frac{1}{2}}(i)$ and $B^{j+1}(i+\frac{1}{2})$:
 \begin{eqnarray}
@@ -153,9 +166,19 @@ E^{j+\frac{1}{2}}(i)&=& E^{j-\frac{1}{2}}(i) -  \frac{c^2 \Delta t}{\Delta z} \l
 B^{j+1}(i+\frac{1}{2}) &=& B^{j}(i+\frac{1}{2}) - \frac{\Delta t}{\Delta z}\left[E^{j+\frac{1}{2}}(i+1) - E^{j+\frac{1}{2}}(i)\right]
 \end{eqnarray}
 \item Absorbing \emph{boundary conditions}: $E^{j+\frac{1}{2}}(0) = E^{j+\frac{1}{2}}(n)$ = 0 for all time nodes $j$
-\item \emph{Initial condition}: $E^{0+\frac{1}{2}}(i) = \exp\left(-\frac{(i - \mu)^2}{2 \sigma^2}\right)$ for all space nodes $i$
+\item \emph{Initial condition}: $E^{0-\frac{1}{2}}(i) = \exp\left(-\frac{(i - \mu)^2}{2 \sigma^2}\right)$ for all space nodes $i$
 \item Illustration of the resulting \emph{leap frog algorithm} is done on blackboard 
 \end{itemize}
+\end{frame}
+
+
+\section{Wave Equation-Method}
+\begin{frame}
+\frametitle{Obtain Wave Equation from Maxwells' Equation}
+\end{frame}
+\section{Numerical results}
+\begin{frame}
+content...
 \end{frame}
 
 \section{Results}
@@ -169,9 +192,6 @@ Layout
 \item $\Delta_t$ and $\Delta_z$ gest varied to show stability issues
 \end{itemize}
 \end{frame}
-
-
-
 
 
 \section{Summary}
@@ -193,12 +213,11 @@ Thank You for Your Attention
 \newline
 Presentation and Code: \url{github.com/svrnwnsch/Computational-Physics-2016}}
 
-
 \end{document}
 
 % In case 2 column minipage is needed:
 \begin{frame}
-\frametitle{Problem and approach to a solution}
+\frametitle{Problem and direct approach to a solution}
 \begin{columns}[T] % align columns
 \begin{column}{.48\textwidth}
 Left Part
