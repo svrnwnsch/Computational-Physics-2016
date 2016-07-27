@@ -89,13 +89,15 @@ for j in range(0, m):
 
 def getE(time):
     line.set_ydata(E[:, time])
-    time_text.set_text('E_x[t_hat = {}]'.format(time * dt))
+    time_text.set_text('t = {:5.2f}'.format(time * dt))
     return line
 
 fig = plt.figure('Animation for {} s'.format(t_max))
 
 ax = fig.add_subplot(111)
 ax.set_ylim(-1, 1)
+ax.set_xlabel('z')
+ax.set_ylabel('E_x')
 
 line, = ax.plot(z, E[:, 0])
 time_text = ax.text(0.02, 0.95, '', transform=ax.transAxes)

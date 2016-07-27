@@ -195,3 +195,4 @@ TSWLatexianTemp*
 
 .directory
 __pycache__/*
+.idea/*
