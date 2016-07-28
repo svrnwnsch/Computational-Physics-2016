@@ -228,12 +228,36 @@ E^{j+1}(i)=-E^{j-1}(i)+2(1-\frac{c^2\Delta t^2}{\Delta z^2})E^{j}(i)+\frac{c^2\D
 Layout
 \begin{itemize}
 
-\item $z_{max} = 8$
-\item $t_{max} = 100$
-\item $c = 0.1$
+\item $z_{max} = 20$
+\item $t_{max} = 60$
+\item $c = 1$
 \item $\Delta_t$ and $\Delta_z$ gets varied to show stability issues
+\item Starting conditions
+\begin{itemize}
+\item Gausian Distribution $E(x,0) = \exp(-0.5\cdot(x-10)^2)$
+\item Delta Distribution $E(x,0) = \delta_{x, 10}$
+\end{itemize} 
 \end{itemize}
 \end{frame}
+
+
+\begin{frame}
+\frametitle{Energy}
+To test the the numerical simulation the relative change in energy gets calculated.
+\begin{itemize}
+\item Energy density ($c = 1/\sqrt{\varepsilon_0\mu_0}$):
+\begin{equation}
+\omega = \frac{\varepsilon_0 E^2}{2} + \frac{B^2}{2 \mu_0}
+\end{equation}
+\item Relative error of energy:
+\begin{equation}
+\frac{\epsilon(t)}{\epsilon(0)} =  \frac{\sum_i\frac{E(i,t)^2}{c^2} + B(i,t)^2}
+												{\sum_i\frac{E(i,0)^2}{c^2} + B(i,0)^2}
+\end{equation} 
+\end{itemize}
+\end{frame}
+
+\section{References}
 \begin{frame}
 \frametitle{References}
 \begin{itemize}
