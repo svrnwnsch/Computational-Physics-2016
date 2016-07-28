@@ -102,8 +102,8 @@
 %\caption{}
 \label{fig:yee_mesh}
 \end{figure}
-\item Idea 1: Use \textbf{F}inite-\textbf{D}ifference \textbf{T}ime-\textbf{D}omain Method by Yee (1966) to simulate Maxwells' Equations directly on a Yee mesh
-\item Idea 2: Obtain Wave Equation from Maxwells' Equations, then simulate the Wave equation on a mesh
+\item Solution 1: Use \textbf{F}inite-\textbf{D}ifference \textbf{T}ime-\textbf{D}omain Method by Yee (1966) to simulate Maxwells' Equations directly on a Yee mesh
+\item Solution 2: Obtain Wave Equation from Maxwells' Equations, then simulate the Wave equation on a mesh
 \end{itemize}
 \end{frame}
 
@@ -130,8 +130,9 @@
 \begin{eqnarray}
 -\partial_z B(z, t) &=& \frac{1}{c^2} \partial_t E(z, t)\nonumber\\
 \partial_z E(z, t)  &=& -\partial_t B(z, t)
+\label{eq:maxwell_simplified}
 \end{eqnarray}
-\item Recall lect.4,pt.2: Central difference approximation
+\item Recall lect.4,pt.2: Central difference approximation of 1$^{\mathrm{st}}$ derivative
 \begin{equation}
 f'_i = \frac{f_{i+1} - f_{i-1}}{2h} + \mathcal{O}(h^2) 
 \end{equation}
@@ -174,22 +175,45 @@ B^{j+1}(i+\frac{1}{2}) &=& B^{j}(i+\frac{1}{2}) - \frac{\Delta t}{\Delta z}\left
 
 \section{Wave Equation-Method}
 \begin{frame}
-\frametitle{Obtain Wave Equation from Maxwells' Equation}
-\end{frame}
-\section{Numerical results}
-\begin{frame}
-content...
+\frametitle{Wave Equation-Method}
+\begin{itemize}
+\item Applying $\partial_t$ to the first eq. and replacing $\partial_t B$ in (\ref{eq:maxwell_simplified}) yields the Wave Equation for the E-field:
+\begin{equation}
+\partial^2_t E = c^2 \partial^2_z E
+\end{equation}
+\item Recall (again) lect.4,pt.2: Central difference approximation of 2$^{\mathrm{nd}}$ derivative
+\begin{equation}
+f''_i = \frac{f_{i+1} - 2 f_i + f_{i-1}}{h} + \mathcal{O}(h^2)
+\end{equation}
+\end{itemize}
 \end{frame}
 
-\section{Results}
 \begin{frame}
-\frametitle{Results}
+\frametitle{Wave Equation-Method}
+\begin{itemize}
+\item This can readily be implemented in a straight forward way:
+\begin{equation}
+\frac{}{} = \frac{}{}
+\end{equation}
+\item Solving for $E^{j+1}(i)$ yields:
+\begin{equation}
+...
+\end{equation}
+
+\end{itemize}
+\end{frame}
+
+
+
+\section{Numerical results}
+\begin{frame}
+\frametitle{Numerical results}
 Layout
 \begin{itemize}
 \item $z_{max} = 8$
 \item $t_{max} = 100$
 \item $c = 0.1$
-\item $\Delta_t$ and $\Delta_z$ gest varied to show stability issues
+\item $\Delta_t$ and $\Delta_z$ gets varied to show stability issues
 \end{itemize}
 \end{frame}
 
