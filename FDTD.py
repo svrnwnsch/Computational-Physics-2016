@@ -10,24 +10,25 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 # Source
+sigma = 0.1
 def f(x):
-    return np.exp(-0.5*(x-5)**2/(1)**2)
+    return np.exp(-0.5*(x-z_max/2)**2/(sigma)**2)
 
 # Alternative Source (has to be included between E- and B-field for loops)    
 #e[z_source] = np.exp(-(t - 8)**2/4**2) #np.sin(2 * np.pi * 278E6 * t  * dt) 
 
 # Speed of wave
-c = .1
+c = 1
 
 # Space domain: 0..z_max
-z_max = 10
+z_max = 20
 
 # Time domain: 0..t_max
 t_max = 60
 
 # Cell size and time stepping
-dt = 1E-3
-dz = 1E-2
+dt = 1E-4
+dz = 1E-1
 
 # Spacial index
 n = int(z_max / dz)
@@ -62,6 +63,8 @@ for j in range(0, m):
 # Initial Condition
 for i in range(1, n):
     E[i, 0] = f(z[i])
+## Delta Peak
+#E[int(n/2),0] = 1
 
 # Generate E- and B-fields with FDTD-Method
 for j in range(0, m):
@@ -89,15 +92,23 @@ ax1.set_ylim(-1, 1)
 ax1.set_xlim(0, z_max)
 ax1.set_ylabel('E_x')
 ax1.grid()
-ax2.set_ylim(-10, 10)
+ax2.set_ylim(-1, 1)
 ax2.set_xlim(0, z_max)
 ax2.set_ylabel('B_y')
 ax2.grid()
 
+start_energy = 0
+for i in range(n + 1):
+    start_energy += E[i, 0] ** 2 / c ** 2 + B[i, 0] ** 2
+
 def getFields(time):
-    line[0][0].set_ydata(E[:, time])    
+    line[0][0].set_ydata(E[:, time])
     line[1][0].set_ydata(B[:, time])
     time_text.set_text('t = {:5.2f}'.format(time * dt))
+    energy = 0
+    for i in range(n+1):
+        energy += E[i, time]**2/c**2 + B[i, time]**2
+    error_text.set_text('Relative Error = {:5.5f}'.format(energy/start_energy))
     return line
 
 #fig = plt.figure('Animation for {} s'.format(t_max))
@@ -108,16 +119,21 @@ def getFields(time):
 #ax.set_ylabel('B_y')
 
 #line, = ax.plot(z, B[:, 0])
-time_text = ax1.text(0.02, 0.95, '', transform=ax1.transAxes)
+time_text = ax1.text(0.02, 0.90, '', transform=ax1.transAxes)
+error_text = ax1.text(0.02, 0.80, '', transform=ax1.transAxes)
+info_text = ax1.text(0.70, 0.90, 'dz = {}, dt = {}'.format(dz, dt),
+                     transform=ax1.transAxes)
 
-ani = animation.FuncAnimation(fig, getFields, range(0, B.shape[1], int(B.shape[1]/1000)),
-                              interval=10, blit=False)
+fps = 20
 
+ani = animation.FuncAnimation(fig, getFields, range(0, B.shape[1], int(B.shape[1]*fps/5000+1)),
+                              interval=1000/fps, blit=False)
 
-## Method to save animation in movie file needs ffmpg installed
+## Method to save animation in movie file needs ffmpeg installed
 
-#ani.save('Gaus_dz{}dt{}z{}t{}.mp4'.format(dt, dz, z_max, t_max), fps=30, extra_args=['-vcodec', 'libx264'])
+ani.save('Gaus_dz{}dt{}z{}t{}sigma{}.mp4'.format(dz, dt, z_max, t_max, sigma), fps=fps, extra_args=['-vcodec', 'libx264'])
 
+plt.show()
 '''
 # Plotting routine
 # Produce snapshot at time t_hat
