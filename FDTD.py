@@ -17,7 +17,7 @@ def f(x):
 #e[z_source] = np.exp(-(t - 8)**2/4**2) #np.sin(2 * np.pi * 278E6 * t  * dt) 
 
 # Speed of wave
-c = .1
+c = 1
 
 # Space domain: 0..z_max
 z_max = 10
